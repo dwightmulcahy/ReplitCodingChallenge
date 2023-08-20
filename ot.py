@@ -2,50 +2,72 @@ import json
 
 
 class OperationalTransformation:
+    """
+    Operational Transformation (OT) takes in a document and starts at position zero.  OT Commands are passed into the
+    `transform()` functions that modifies the document based on the json list of OT commands and returns the transformed
+    document.
+
+    OT Commands take the following form:
+    - Skip - skips X count characters from the current position
+        {"op": "skip", "count": 4}
+
+    - Insert - inserts characters at the current position leaving position the same
+        {"op": "insert", "chars": " day"}
+
+    - Delete - deletes X number of characters at the current position leaving position the same
+        {"op": "delete", "count": 3}
+    """
     position = 0
 
     def __init__(self, document: str):
         self.transformDocument = document
 
-    def skip(self, document: str, ot: json) -> str:
+    def skip(self, ot: json):
+        """
+        Skip the `count` number of positions in the current position
+
+        :param ot: json string of Operational Transformation command
+        """
         count = int(ot['count'])
         self.position += count
-        return document if len(document) > self.position else None
+        self.transformDocument = self.transformDocument if len(self.transformDocument) > self.position else None
 
-    def delete(self, document: str, ot: json) -> str:
+    def delete(self, ot: json):
+        """
+        Deletes X number of characters at the current position
+        :param ot: json string of Operational Transformation command
+        """
         count = int(ot['count'])
-        return document[:self.position] + document[self.position + count:]
+        self.transformDocument = self.transformDocument[:self.position] + self.transformDocument[self.position + count:]
 
-    def insert(self, document: str, ot: json) -> str:
+    def insert(self, ot: json):
+        """
+        Inserts characters at the current position
+
+        :param ot: json string of Operational Transformation command
+        """
         chars = ot['chars']
-        transformedDocument = document[:self.position] + chars + document[self.position:]
+        self.transformDocument = self.transformDocument[:self.position] + chars + self.transformDocument[self.position:]
         self.position += len(chars)
-        return transformedDocument
 
-    def transform(self, otjson: str) -> str:
+    def transform(self, otjson: json) -> str:
         """
         runs the OT commands against the document
 
-        :param otjson: json string
+        :param otjson: str  json string of list of Operational Transformation commands
         :return: transformed document string
         """
-        self.otjson = json.loads(otjson)
+        otjson = json.loads(otjson)
 
-        transformed = self.transformDocument
-        for ot in self.otjson:
+        for ot in otjson:
             if ot['op'] == 'skip':
-                transformed = self.skip(transformed, ot)
+                self.skip(ot)
             elif ot['op'] == 'delete':
-                transformed = self.delete(transformed, ot)
+                self.delete(ot)
             elif ot['op'] == 'insert':
-                transformed = self.insert(transformed, ot)
+                self.insert(ot)
             else:
                 # bad thing, unrecognized operation
-                raise Exception
+                raise ValueError
 
-        return transformed
-
-
-def isValid(document: str, latest: str, otjson: str):
-    otDoc = OperationalTransformation(document).transform(otjson)
-    return otDoc == latest
+        return self.transformDocument

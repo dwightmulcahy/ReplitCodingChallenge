@@ -4,7 +4,7 @@ Coding challenge for job application to Replit.
 
 This is the [job description](https://jobs.ashbyhq.com/replit/d05ca210-cb16-4c3c-879a-b86fc9c909e7) that had the coding challenge (not sure if all do or not).  I did copy most of the text of the challenge here just in case it went away. :shrug:
 
-They said to use a 30 minute timer so my solution was all in one file as I was also learning Replit's navagation and style.  I perfer to do a [Test Driven Development (TDD)](https://en.wikipedia.org/wiki/Test-driven_development) style on challenges like this and used the sample tests.  My Replit solution is [here](https://replit.com/@dWiGhTMulcahy/CodingChallenge) which I finished in more or less 30 minutes.
+They said to use a 30-minute timer so my solution was all in one file as I was also learning Replit's navigation and style.  I prefer to do a [Test Driven Development (TDD)](https://en.wikipedia.org/wiki/Test-driven_development) style on challenges like this and used the sample tests.  My Replit solution is [here](https://replit.com/@dWiGhTMulcahy/CodingChallenge) which I finished in more or less 30 minutes. Keep in mind this is one way to do this and probably isn't the best so YMMV.  ;)
 
 This repo I clean it up and commented it more to help explain the code better.  I also added more tests using the examples they gave in the challenge description.  I probably did another 30 mins cleaning up the code using PyCharm on my personal computer.
 
